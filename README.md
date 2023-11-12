@@ -25,7 +25,9 @@ DataBase: MySQL
 소셜로그인
 + passport 이용(Google, Kakao, Naver)
 + 소셜로그인마다 같은 이메일을 쓰는 경우가 있으므로 isAuth라는 column을 추가해 구분함
-  ![image](https://github.com/hig0ni/shoppingmall/assets/111436454/e04dc8c8-759c-43f6-8003-05fb5156d8ba)
+  
+  ![image](https://github.com/hig0ni/shoppingmall/assets/111436454/ec599ed6-7dae-4bb1-b65a-b6eaeb3f041d)
+
 
 
 프로필 수정(비밀번호 수정, 닉네임 수정, 회원탈퇴)
