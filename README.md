@@ -6,8 +6,6 @@
 
 💡 캠핑용품을 판매하는 쇼핑몰 웹 어플리케이션 이며, PC & Mobile 모두 호환되는 반응형 웹입니다.
 
-https://https://meta-camping-service.com
-
 ## Tech Stack 🛠️
 FrontEnd: Nextjs
 
