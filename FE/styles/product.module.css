@@ -1,0 +1,201 @@
+.wrap {
+    width: 90%;
+    text-align: center;
+}
+
+.blind {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+
+.search > form {
+    margin-top: 100px;
+    display: inline-flex;
+    width: 100%;
+    max-width: 800px;
+    height: 60px;
+    border: 2px solid #03c75a;
+    text-align: left;
+}
+
+.search > form:hover {
+    box-shadow:  0 2px 4px 0 rgba(0,0,0,.12);
+}
+
+.search_input {
+    width: 90%;
+    padding: 17px 0;
+    font-size: 1.6rem;
+    line-height: 24px;
+    font-weight: bold;
+    border: none;
+    outline: none;
+}
+
+.search_input::placeholder {
+    color: white;
+}
+
+.search_input:focus::placeholder {
+    color: #e4e4e4;
+}
+
+.search_right {
+    display: inline-block;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+.search_button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 17px 27px 16px 10px;
+}
+
+#search_button > div {
+    width: 25px;
+    height: 25px;
+}
+
+.search_button > div::before {
+    content: "";
+    display: inline-block;
+    background-image: url('/sp_main.png');
+    background-size: 434px 414px;
+    background-position: -295px -329px;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+}
+
+/* ----------------------------------여기까지 검색창---------------------------------- */
+
+.main {
+    width: 100%;
+    border: 2px solid #03c75a;;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+}
+.left_section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.left_section .slash, .left_section .dot {
+    color: rgba(8,8,8,.5);
+    font-weight: 800;
+}
+.left_section .slash {
+    position: relative;
+    padding-left: 26px;
+}
+
+.left_section header {
+    padding: 20px;
+    font-size: 1.6rem;
+    color: rgba(8,8,8,.5);
+    display: flex;
+    justify-content: flex-start;
+    line-height: 23px;
+}
+.left_section header .bold {
+    font-weight: bold;
+    color: black
+}
+
+.left_section a {
+    text-decoration: none;
+}
+.left_section a:visited {
+    color: inherit;
+}
+.left_section a:hover {
+    text-decoration: underline;
+}
+
+.main_shopping_top {
+    padding-top: 19px;
+    height: 100%;
+}
+.main_shopping_top header {
+    margin-bottom: 16px;
+}
+.main-shopping footer .text{
+    min-width: 176px;
+}
+.main_shopping_gray {
+    display: flex;
+    font-size: 1.4rem;
+    line-height: 21px;
+}
+
+.main_shopping_grid {
+    margin-top: 18px;
+    display: grid;
+    padding: 20px;
+    /* grid-template-rows: 100px 100px; */
+    grid-template-columns: 15% 15% 15% 15% 15%;
+    column-gap: 6.25%;
+}
+.main_shopping_grid .item {
+    line-height: 23px;
+    letter-spacing: -.4px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+.main_shopping_grid .item > .image {
+    width: 100%;
+    height: 70%;
+    border-radius: 4px;
+    background-color: gray;
+    margin-top: 14px;
+    margin-bottom: 2px;
+    grid-row: 1 / span 2;
+}
+
+.main_shopping_grid .item > .text {
+    text-align: left;
+    margin-top: 10px;
+}
+@media screen and (max-width: 1000px) {
+    .main_shopping_grid {
+        grid-template-columns: 20% 20% 20% 20%;
+        column-gap: 5%;
+    }
+    .main_shopping_grid .item > .image {
+        height: 60%;
+    }
+    .search > form {
+        width: 90%;
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main_shopping_grid {
+        grid-template-columns: 30% 30% 30%;
+        column-gap: 5%;
+    }
+    .main_shopping_grid .item > .image {
+        height: 50%;
+    }
+    .search_input {
+        margin-top: 20px;
+        width: 100%;
+        font-size: 1rem;
+    }
+    .search > form {
+        width: 80%;
+        margin-top: 30px;
+    }
+    
+}
