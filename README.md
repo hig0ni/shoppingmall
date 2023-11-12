@@ -1,4 +1,5 @@
-![image](https://github.com/hig0ni/shoppingmall/assets/111436454/607ca53a-f71a-4598-90dc-145aebd7ecb6)
+![image](https://github.com/hig0ni/shoppingmall/assets/111436454/9696d55d-7978-460b-a244-9d3222186672)
+
 
 # THE Camping - Camping Shopping Mall 🏕️
 
