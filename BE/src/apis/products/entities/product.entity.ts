@@ -1,20 +1,12 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ProductCategory } from 'src/apis/productsCategories/entities/productCategory.entity';
-import { ProductSaleslocation } from 'src/apis/productsSaleslocations/entities/productSaleslocation.entity';
-import { ProductTag } from 'src/apis/productsTags/entities/productTag.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
-  CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -40,10 +32,9 @@ export class Product {
   @Field(() => Boolean)
   isSoldout: boolean;
 
-  @JoinColumn()
-  @OneToOne(() => ProductSaleslocation)
-  @Field(() => ProductSaleslocation)
-  productSaleslocation: ProductSaleslocation;
+  @Column()
+  @Field(() => String)
+  url: string;
 
   @ManyToOne(() => ProductCategory)
   @Field(() => ProductCategory)
@@ -52,11 +43,6 @@ export class Product {
   @ManyToOne(() => User)
   @Field(() => User)
   user: User;
-
-  @JoinTable()
-  @ManyToMany(() => ProductTag, (productTags) => productTags.products)
-  @Field(() => [ProductTag])
-  productTags: ProductTag[];
 
   // @CreateDateColumn() // 데이터 등록시 등록시간 자동으로 추가
   // createdAt: Date;

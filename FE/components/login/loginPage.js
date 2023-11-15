@@ -145,9 +145,9 @@ export default function LoginPage() {
                 </div>
                 <div id={styles.SocialLoginGoogle}>
                     <Image className={styles.SocialLoginButtonImg} src="/google.png" width="32" height="32" alt="" />
-                    <a href="http://localhost:5656/login/google">
+                    <Link href="http://localhost:5656/login/google">
                         <div className={styles.SocialLoginButtonTitle}>구글로 로그인</div>
-                    </a>
+                    </Link>
                 </div>
                 <div id={styles.SocialLoginNaver}>
                     <Image className={styles.SocialLoginButtonImg} src="/naver.png" width="32" height="32" alt="" />

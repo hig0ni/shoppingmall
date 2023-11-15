@@ -11,13 +11,10 @@
 }
 
 .product-card {
-    @apply flex flex-col m-3 rounded-xl w-full
+    @apply flex flex-col mt-5 rounded-xl w-full 
             transition duration-300 transform border border-gray-300
             hover:scale-105
             hover:shadow-lg
-            dark:border-gray-200/50
-            dark:hover:shadow-gray-400/40
-
             hover:text-blue-600
 }
 

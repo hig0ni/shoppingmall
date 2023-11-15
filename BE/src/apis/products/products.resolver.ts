@@ -22,6 +22,17 @@ export class ProductsResolver {
     return this.productsService.findOne({ productId });
   }
 
+  @Query(() => [Product])
+  fetchFindProducts(
+    @Args('word') word: string, //
+  ): Promise<Product[]> {
+    console.log('@@@@@@@@@');
+    console.log(word);
+    console.log('@@@@@@@@@');
+
+    return this.productsService.findAllByWord({ word });
+  }
+
   @Mutation(() => Product)
   createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,

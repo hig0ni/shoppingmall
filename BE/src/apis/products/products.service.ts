@@ -1,5 +1,5 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
@@ -9,28 +9,30 @@ import {
   IProductsServiceDelete,
   IProductsServiceUpdate,
 } from './interfaces/products-service.interface';
-import { ProductsSaleslocationService } from '../productsSaleslocations/productsSaleslocations.service';
-import { ProductsTagsService } from '../productsTags/productsTags.service';
-
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>, //
-    private readonly productsSaleslocationsService: ProductsSaleslocationService,
-    private readonly productsTagsService: ProductsTagsService,
   ) {}
 
   findAll(): Promise<Product[]> {
     return this.productsRepository.find({
-      relations: ['productSaleslocation', 'productCategory'],
+      relations: ['productCategory'],
     });
   }
 
   findOne({ productId }: IProductServiceFindOne): Promise<Product> {
     return this.productsRepository.findOne({
       where: { id: productId },
-      relations: ['productSaleslocation', 'productCategory'],
+      relations: ['productCategory'],
+    });
+  }
+
+  findAllByWord({ word }): Promise<Product[]> {
+    return this.productsRepository.find({
+      where: { name: Like(`%${word}%`) },
+      relations: ['productCategory'],
     });
   }
 
@@ -47,61 +49,29 @@ export class ProductsService {
     // });
 
     // 2. 상품과 상품거래위치를 같이 등록하는 방법
-    const {
-      productsSaleslocation,
-      productCategoryId,
-      productTags,
-      ...product
-    } = createProductInput;
+    const { productCategoryId, ...product } = createProductInput;
 
-    // 2-1) 상품거래위치 등록
-    // 바로 저장하지 않고 서비스를 타고 가야 하는 이유는 ??
-    // 레파지토리에 직접 접근하면 검증 로직을 통일 시킬 수 없음
-    const result = await this.productsSaleslocationsService.create({
-      productsSaleslocation,
-    });
-
-    // 2-2) 상품태그 등록
-    // productTags가 ["#전자제품", "#영등포", "#컴퓨터"]와 같은 패턴이라고 가정
-    const tagNames = productTags.map((el) => el.replace('#', '')); // ["전자제품", "영등포", "컴퓨터"]
-    const prevTags = await this.productsTagsService.findByNames({ tagNames });
-
-    const temp = [];
-    tagNames.forEach((el) => {
-      const isExists = prevTags.find((prevEl) => el === prevEl.name);
-      if (!isExists) temp.push({ name: el });
-    });
-
-    // bulk-insert는 save()로는 불가능
-    const newTags = await this.productsTagsService.bulkInsert({ names: temp });
-    const tags = [...prevTags, ...newTags.identifiers];
-
-    const result2 = this.productsRepository.save({
+    const result = this.productsRepository.save({
       ...product,
-      productsSaleslocation: result, // result 통째로 넣기 vs id만 빼서 넣기
       productCategory: {
         id: productCategoryId,
         // 만약에, name 까지 받고 싶으면?
         // => createProductInput에 name 까지 포함해서 받아오기
       },
-      productTags: tags,
     });
 
     // // 하나 하나 직접 나열하는 방식
     // name: product.name,
     // description: product.description,
     // price: product.price,
-    // producSaleslocation: {
-    //   id: result.id.
+    // productCategory: {
+    //   id: productCategoryId
     // }
 
-    return result2;
+    return result;
   }
 
-  async update({
-    productId,
-    updateProductInput,
-  }: IProductsServiceUpdate): Promise<void> {
+  async update({ productId }: IProductsServiceUpdate): Promise<void> {
     // 기존 있는 내용을 재사용하여, 로직을 통일하자!!
     const product = await this.findOne({ productId });
 
@@ -126,13 +96,6 @@ export class ProductsService {
     if (product.isSoldout) {
       throw new UnprocessableEntityException('이미 판매 완료된 상품입니다.');
     }
-
-    // if (product.isSoldout) {
-    //   throw new HttpException(
-    //     '이미 판매 완료된 상품입니다.',
-    //     HttpStatus.UNPROCESSABLE_ENTITY,
-    //   );
-    // }
   }
 
   async delete({ productId }: IProductsServiceDelete): Promise<boolean> {

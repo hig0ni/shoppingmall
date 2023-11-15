@@ -10,8 +10,8 @@ export default function Home() {
             <meta name="description" content="캠핑 쇼핑몰" />
             <link rel="icon" href="/favicon.png" />
         </Head>
-        <section className="flex  flex-col items-center justify-center text-gray-600 body-font">
-            <div className="container min-h-screen mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <section className="flex  flex-col items-center justify-center text-gray-600 body-font ">
+            <div className="container min-h-screen mx-auto flex px-5 py-24 md:flex-row flex-col items-center ">
                 <Hero/>
             </div>
         </section>
