@@ -169,9 +169,7 @@
         column-gap: 5%;
     }
     .search_input {
-        margin-top: 20px;
         width: 100%;
-        font-size: 1rem;
     }
     .search > div {
         width: 80%;

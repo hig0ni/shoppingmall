@@ -1,0 +1,24 @@
+.wrap {
+    width: 90%;
+    text-align: center;
+}
+
+.main {
+    width: 100%;
+    border: 2px solid #03c75a;;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.left_section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main_shopping_top {
+    padding-top: 19px;
+    height: 100%;
+}

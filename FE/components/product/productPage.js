@@ -69,7 +69,7 @@ export default function ProductPage ({products}) {
                            
                             <div className={styles.main_shopping_grid}>
                                 {filteredProducts.map((product) => (
-                                    <Link href="#" className={styles.item} key={product.id}>
+                                    <Link href={`/product/${product.id}`} className={styles.item} key={product.id}>
                                         <div className="product-card">
                                             <div>
                                                 <Image
@@ -97,7 +97,6 @@ export default function ProductPage ({products}) {
                             <button className={styles.next}><span className={styles.blind}>다음 페이지</span></button>
                         </footer>
                     </section>
-
             </main>
         </div>
     );

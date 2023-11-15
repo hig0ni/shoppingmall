@@ -26,10 +26,6 @@ export class ProductsResolver {
   fetchFindProducts(
     @Args('word') word: string, //
   ): Promise<Product[]> {
-    console.log('@@@@@@@@@');
-    console.log(word);
-    console.log('@@@@@@@@@');
-
     return this.productsService.findAllByWord({ word });
   }
 
