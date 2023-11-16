@@ -6,6 +6,7 @@ export interface IAuthUser {
     nickname?: string;
     email?: string;
     isAuth?: number;
+    isAdmin?: number;
   };
 }
 

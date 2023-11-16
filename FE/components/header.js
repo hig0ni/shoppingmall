@@ -21,17 +21,15 @@ export default function Header(){
         axios.post("http://localhost:5656/graphql", {
             query: `
                 query {
-                    fetchUser{ nickname, isAuth }
+                    fetchUser{ nickname }
                 }
             `,
-        },
-        {
+        }, {
             headers:{
                 Authorization: `Bearer ${token}`
-            }
-        },
-        { withCredentials: true }
-        )
+            },
+            withCredentials: true 
+        })
         .then(res => {
             if(res.data.data){
                 setUser(res.data.data.fetchUser.nickname)
@@ -47,9 +45,7 @@ export default function Header(){
                     restoreAccessToken
                 }
             `,
-        },
-        { withCredentials: true }
-        )
+        }, { withCredentials: true })
         .then(res => {
             if(res.data.errors) {
                 console.log(res.data.errors[0].message)
@@ -61,33 +57,29 @@ export default function Header(){
     }, [])
 
     return (
-        <>
-            <header className= {styles.main}>
-                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                    <Link href="/">
-                        <a className="flex title-font font-medium items-center mb-4 md:mb-0 text-black">  
-                            <Image src="/camping.png" width="30" height="30" alt="" />
-                            <span className="ml-3 hover:text-white text-2xl">THE 캠핑</span>
-                        </a>
-                    </Link>
+        <header className= {styles.main}>
+            <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+                <Link href="/">
+                    <div className="flex title-font font-medium items-center mb-4 md:mb-0 text-black hover:cursor-pointer">  
+                        <Image src="/camping.png" width="30" height="30"/>
+                        <span className="ml-3 hover:text-white text-2xl">THE 캠핑</span>
+                    </div>
+                </Link>
 
-
-                    <div className="md:ml-auto flex flex-wrap items-center text-base justify-center text-2xl">
-                        {ssrCompleted && !token && !user ?
+                <div className="md:ml-auto flex flex-wrap items-center text-base justify-center text-2xl">
+                    { ssrCompleted && !token && !user ? (
                         <Link href="/login">
                             <a className="mr-5 text-black text-2xl">
                             <span className="ml-3 hover:text-white text-2xl">로그인</span>
                             </a>
                         </Link>
-                        :
-                        <>
-                            { ssrCompleted && token && user ? <Dropdown/> : <></> }
-                        </>
-                        }
-                    </div>
-                    
+                    ) : (
+                    <>
+                        { ssrCompleted && token && user ? <Dropdown/> : <></> }
+                    </>
+                    )}
                 </div>
-            </header>
-        </>
+            </div>
+        </header>
     );
 }

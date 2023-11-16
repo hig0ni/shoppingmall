@@ -104,8 +104,9 @@
     font-size: 1.6rem;
     color: rgba(8,8,8,.5);
     display: flex;
-    justify-content: flex-start;
-    line-height: 23px;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 .left_section header .bold {
     font-weight: bold;
@@ -160,6 +161,12 @@
     .search > div {
         width: 90%;
         margin-top: 50px;
+    }
+}
+
+@media screen and (max-width: 615px) {
+    .left_section header {
+        justify-content: center;
     }
 }
 

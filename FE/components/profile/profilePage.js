@@ -1,12 +1,13 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { useRouter } from 'next/router'
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../recoil/recoilToken.js';
 import { userState } from '../../recoil/recoilUser.js';
 import styles from '../../styles/profile.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 
 export default function ProfilePage() {
     const router = useRouter()
@@ -14,33 +15,6 @@ export default function ProfilePage() {
     const [token, setToken] = useRecoilState(tokenState);
     const [user, setUser] = useRecoilState(userState);
     const [isAuth, setIsAuth] = useState(false); 
-
-   useEffect(() => {
-        axios.post("http://localhost:5656/graphql", {
-            query: `
-                query {
-                    fetchUser{ nickname, isAuth }
-                }
-            `,
-        },
-        {
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        },
-        { withCredentials: true }
-        )
-        .then(res => {
-            if(!res.data.data){
-                alert("로그인이 필요합니다.")
-                router.push('/')
-            } else {
-                setIsAuth(res.data.data.fetchUser.isAuth)
-            }
-            
-        })
-        .catch(error =>  alert(error));
-    }, [])
 
     const [inputPw, setInputPw] = useState(""); // 비밀번호 변경시 사용할 비밀번호
     const [inputPw1, setInputPw1] = useState(""); // 비밀번호 변경시 사용할 비밀번호
@@ -289,7 +263,7 @@ export default function ProfilePage() {
     return (
         <div className={styles.Wrapper}>
             <div className={styles.LogoWrapper}>
-                <Image src="/profile.png" width="150" height="150" alt="" />
+                <FontAwesomeIcon icon={faAddressCard} size="10x" style={{color: "#000000"}} />
                 <div className={styles.Title}>프로필</div>
             </div>
             {!isAuth && (

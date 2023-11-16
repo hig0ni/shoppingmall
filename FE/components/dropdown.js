@@ -1,12 +1,12 @@
-import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link';
-import Image from "next/image";
 import { Cookies } from "react-cookie";
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router'
 import { tokenState } from '../recoil/recoilToken.js';
 import { userState } from '../recoil/recoilUser.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 
 function classNames(...classes) {
@@ -14,17 +14,15 @@ function classNames(...classes) {
 }
 
 export default function Dropdown() {
+  const [user, setUser] = useRecoilState(userState);
   const setToken = useSetRecoilState(tokenState);
-  const setUser = useSetRecoilState(userState);
-  const user = useRecoilState(userState);
   const router = useRouter();
   
   const logout = () => {
     const cookies = new Cookies();
-
+    cookies.remove('refreshToken')
     setToken(null);
     setUser(null);
-    cookies.remove('refreshToken')
     router.push('/')
   }
 
@@ -32,15 +30,14 @@ export default function Dropdown() {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            <button className="border-none flex items-center text-2xl">
-                <Image src="/profile.png" width="30" height="30"/>
-                <span className="ml-3">{user}</span>                      
-            </button>
+            <div className="border-none flex items-center text-2xl">
+                <FontAwesomeIcon icon={faUser} style={{color: "#000000"}}/>
+                <span className="ml-3 text-black">{user}</span>                      
+            </div>
         </Menu.Button>
       </div>
 
       <Transition
-        as={Fragment}
         enter="transition ease-out duration-100"
         enterFrom="transform opacity-0 scale-95"
         enterTo="transform opacity-100 scale-100"

@@ -27,4 +27,8 @@ export class User {
   @Column({ default: 0 })
   @Field(() => Int)
   isAuth: number;
+
+  @Column({ default: 0 })
+  @Field(() => Int)
+  isAdmin: number;
 }

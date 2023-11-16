@@ -57,7 +57,12 @@ export class AuthService {
 
   getAccessToken({ user }: IAuthServiceGetAccessToken): string {
     return this.jwtService.sign(
-      { email: user.email, nickname: user.nickname, isAuth: user.isAuth },
+      {
+        email: user.email,
+        nickname: user.nickname,
+        isAuth: user.isAuth,
+        isAdmin: user.isAdmin,
+      },
       { secret: process.env.JWT_ACCESS, expiresIn: '1h' },
     );
   }
@@ -68,7 +73,12 @@ export class AuthService {
 
   setRefreshToken({ user, res }: IAuthServiceSetRefreshToken): void {
     const refreshToken = this.jwtService.sign(
-      { email: user.email, nickname: user.nickname, isAuth: user.isAuth },
+      {
+        email: user.email,
+        nickname: user.nickname,
+        isAuth: user.isAuth,
+        isAdmin: user.isAdmin,
+      },
       { secret: process.env.JWT_REFRESH, expiresIn: '2w' },
     );
 

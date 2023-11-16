@@ -2,8 +2,10 @@ import { React } from "react";
 import Image from "next/image";
 import styles from '../../styles/productDetail.module.css';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
-export default function ProductPage ({product}) {
+export default function ProductDetailPage ({product}) {
     
     return (
         <div className={styles.wrap}>
@@ -11,9 +13,10 @@ export default function ProductPage ({product}) {
                     <section className={styles.left_section}>
                         <div className={styles.main_shopping_top}>
                         <Link href='/products'>
-                            <div className="text-3xl mt-4 mb-5 cursor-pointer">
-                                ← 상품 목록
-                            </div>
+                            <button className="text-3xl m-5 cursor-pointer">
+                                <FontAwesomeIcon icon={faArrowLeft} style={{color: "#000000"}}/>
+                                <span className="m-2 text-black">상품 목록</span>
+                            </button>
                         </Link>    
                             <div className="p-10 max-w-xl m-auto">
                                 <Image

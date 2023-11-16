@@ -27,14 +27,12 @@ export default function LoginPage() {
                     fetchUser{ nickname, isAuth }
                 }
             `,
-        },
-        {
+        }, {
             headers:{
                 Authorization: `Bearer ${token}`
-            }
-        },
-        { withCredentials: true }
-        )
+            }, 
+            withCredentials: true
+        })
         .then(res => {
             if(res.data.data){
                 setUser(res.data.data.fetchUser.nickname)
@@ -59,9 +57,9 @@ export default function LoginPage() {
         .then(res => {
             if(res.data.errors) {
                 alert(res.data.errors[0].message)
-            } else {
-                setToken(res.data.data.login);
+                return;
             }
+            setToken(res.data.data.login);
         })
         .then()
         .catch(error =>  alert("로그인 실패"));

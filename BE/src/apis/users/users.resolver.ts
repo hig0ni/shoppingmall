@@ -18,8 +18,8 @@ export class UsersResolver {
     console.log('인가에 성공하였습니다.');
     console.log('=================');
 
-    const { nickname, isAuth } = context.req.user;
-    return { nickname, isAuth };
+    const { nickname, isAuth, isAdmin } = context.req.user;
+    return { nickname, isAuth, isAdmin };
   }
 
   @Mutation(() => User)

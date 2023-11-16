@@ -3,10 +3,13 @@ import Image from "next/image";
 import axios from "axios";
 import styles from '../../styles/product.module.css';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-export default function ProductPage ({products}) {
+export default function ProductPage ({products, isAdmin}) {
     const [word, setWord] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
+    
 
     const handleCategory = (e) => {
         const category = e.target.value;
@@ -34,9 +37,7 @@ export default function ProductPage ({products}) {
                     }
                 }
             `,
-        },
-        { withCredentials: true }
-        )
+        }, { withCredentials: true })
         .then(res => {
             setFilteredProducts(res.data.data.fetchFindProducts)  
         })
@@ -49,7 +50,7 @@ export default function ProductPage ({products}) {
                 <div>
                     <input className={styles.search_input} onChange={handleInput} type="text" placeholder="검색어를 입력해 주세요."/>
                     <div className={styles.search_right}>
-                        <button className={styles.search_button} onClick={findByWord} >
+                        <button className={styles.search_button} onClick={findByWord}>
                             <div><span className={styles.blind}>검색</span></div>
                         </button>
                     </div>
@@ -60,11 +61,21 @@ export default function ProductPage ({products}) {
                     <section className={styles.left_section}>
                         <div className={styles.main_shopping_top}>
                             <header>
-                                <button className={styles.bold} onClick={handleCategory} value="ALL">전체</button>
-                                <button className={styles.slash} onClick={handleCategory} value="텐트">텐트</button>
-                                <button className={styles.slash} onClick={handleCategory} value="침낭">침낭</button>
-                                <button className={styles.slash} onClick={handleCategory} value="화로">화로</button>
-                                <button className={styles.slash} onClick={handleCategory} value="키친">키친</button>
+                                <div>
+                                    <button className={styles.bold} onClick={handleCategory} value="ALL">전체</button>
+                                    <button className={styles.slash} onClick={handleCategory} value="텐트">텐트</button>
+                                    <button className={styles.slash} onClick={handleCategory} value="침낭">침낭</button>
+                                    <button className={styles.slash} onClick={handleCategory} value="화로">화로</button>
+                                    <button className={styles.slash} onClick={handleCategory} value="키친">키친</button>
+                                </div>
+                                
+                                <Link href="/product/create">
+                                    { isAdmin ?
+                                    (<button className="text-black font-bold">
+                                        <FontAwesomeIcon icon={faPlus} beat/>
+                                        <span className="m-2">상품 등록</span>
+                                    </button>) : <></>}
+                                </Link>
                             </header>
                            
                             <div className={styles.main_shopping_grid}>

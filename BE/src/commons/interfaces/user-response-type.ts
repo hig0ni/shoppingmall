@@ -7,4 +7,7 @@ export class UserResponseType {
 
   @Field(() => Int)
   isAuth?: number;
+
+  @Field(() => Int)
+  isAdmin?: number;
 }
