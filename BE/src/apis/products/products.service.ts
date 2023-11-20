@@ -16,10 +16,17 @@ export class ProductsService {
     private readonly productsRepository: Repository<Product>, //
   ) {}
 
-  findAll(): Promise<Product[]> {
-    return this.productsRepository.find({
-      relations: ['productCategory'],
-    });
+  findAll({ word }): Promise<Product[]> {
+    if (word === null || word === undefined) {
+      return this.productsRepository.find({
+        relations: ['productCategory'],
+      });
+    } else {
+      return this.productsRepository.find({
+        where: { name: Like(`%${word}%`) },
+        relations: ['productCategory'],
+      });
+    }
   }
 
   findOne({ productId }: IProductServiceFindOne): Promise<Product> {

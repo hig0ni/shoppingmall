@@ -10,4 +10,7 @@ export class UserResponseType {
 
   @Field(() => Int)
   isAdmin?: number;
+
+  @Field(() => Int)
+  point?: number;
 }

@@ -19,6 +19,11 @@ export class AuthResolver {
     return this.authServie.login({ email, password, context });
   }
 
+  @Mutation(() => String)
+  logOut(@Context() context: IContext): Promise<string> {
+    return this.authServie.logOut({ context });
+  }
+
   @UseGuards(GqlAuthGuard('refresh'))
   @Mutation(() => String)
   restoreAccessToken(

@@ -1,23 +1,25 @@
 import Head from 'next/head'
+import Script from 'next/script'
 import Layout from '../components/layout';
-import ProfilePage from '../components/profile/profilePage.js';
+import PointPage from '../components/point/pointPage.js';
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil';
 import { tokenState } from '../recoil/recoilToken.js';
+import useDidMountEffect from "../components/useDidMountEffect";
 
-export default function Profile() {
+export default function Point() {
     const router = useRouter()
     const token = useRecoilValue(tokenState);
-    const [isAuth, setIsAuth] = useState(false);
+    const [point, setPoint] = useState(false);
     const [ssrCompleted, setSsrCompleted] = useState(false);
-
-    useEffect(() => {
+    
+    useDidMountEffect(() => {
         axios.post("http://localhost:5656/graphql", {
             query: `
                 query {
-                    fetchUser{ isAuth }
+                    fetchPoint
                 }
             `,
         },{
@@ -32,22 +34,23 @@ export default function Profile() {
                 setSsrCompleted(false);
                 router.push('/')
                 return;
-            } 
-            setIsAuth(res.data.data.fetchUser.isAuth)
+            }
+            setPoint(res.data.data.fetchPoint);
             setSsrCompleted(true);
         })
         .catch(error =>  alert(error));
-    }, [])
+    }, [token])
 
     return (
       <Layout>
           <Head>
-              <title>THE 캠핑 : 프로필</title>
+              <title>THE 캠핑 : 포인트충전</title>
               <meta name="description" content="캠핑 쇼핑몰" />
               <link rel="icon" href="/favicon.png" />
           </Head>
+          <Script src="https://cdn.iamport.kr/v1/iamport.js"></Script>
           <section className="flex flex-col items-center justify-center text-gray-600 body-font">
-            {ssrCompleted ? <ProfilePage /> : <></>}
+            {ssrCompleted ? <PointPage nowPoint={point}/> : <></>}
           </section>
       </Layout>
     );

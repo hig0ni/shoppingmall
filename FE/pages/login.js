@@ -6,7 +6,7 @@ export default function Login() {
     return (
       <Layout>
           <Head>
-              <title>로그인</title>
+              <title>THE 캠핑 : 로그인</title>
               <meta name="description" content="캠핑 쇼핑몰" />
               <link rel="icon" href="/favicon.png" />
           </Head>

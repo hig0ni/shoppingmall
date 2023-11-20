@@ -35,6 +35,13 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { nickname } });
   }
 
+  async checkPoint({ email }) {
+    const user = await this.findOneByEmail({ email: email });
+    if (!user) throw new ConflictException('아이디가 없습니다');
+
+    return user.point;
+  }
+
   async changePassword({ email, password, password1, password2 }) {
     // 1. 변경할 비밀번호가 일치하는지 확인
     if (password1 !== password2)

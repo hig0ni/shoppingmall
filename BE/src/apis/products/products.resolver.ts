@@ -10,11 +10,6 @@ export class ProductsResolver {
     private readonly productsService: ProductsService, //
   ) {}
 
-  @Query(() => [Product])
-  fetchProducts(): Promise<Product[]> {
-    return this.productsService.findAll();
-  }
-
   @Query(() => Product)
   fetchProduct(
     @Args('productId') productId: string, //
@@ -23,10 +18,10 @@ export class ProductsResolver {
   }
 
   @Query(() => [Product])
-  fetchFindProducts(
-    @Args('word') word: string, //
+  fetchProducts(
+    @Args('word', { nullable: true }) word: string | null,
   ): Promise<Product[]> {
-    return this.productsService.findAllByWord({ word });
+    return this.productsService.findAll({ word });
   }
 
   @Mutation(() => Product)

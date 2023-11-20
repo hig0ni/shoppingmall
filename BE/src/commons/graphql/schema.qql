@@ -38,6 +38,7 @@ type UserResponseType {
   nickname: String!
   isAuth: Int!
   isAdmin: Int!
+  point: Int!
 }
 
 type PointTransaction {
@@ -61,14 +62,16 @@ scalar DateTime
 
 type Query {
   fetchUser: UserResponseType!
+  fetchPoint: Float!
   fetchBoards: [Board!]
-  fetchProducts: [Product!]!
+  fetchPointTransaction: [PointTransaction!]!
   fetchProduct(productId: String!): Product!
-  fetchFindProducts(word: String!): [Product!]!
+  fetchProducts(word: String): [Product!]!
 }
 
 type Mutation {
   login(email: String!, password: String!): String!
+  logOut: String!
   restoreAccessToken: String!
   createUser(email: String!, nickname: String!, password: String!): User!
   changeNickname(afterNickname: String!): String!
@@ -76,10 +79,12 @@ type Mutation {
   deleteUser(password: String!): String!
   createBoard(createBoardInput: CreateBoardInput!): String!
   createPointTransaction(impUid: String!, amount: Int!): PointTransaction!
+  cancelPointTransaction(impUid: String!): PointTransaction!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(productId: String!, updateProductInput: UpdateProductInput!): Product!
   deleteProduct(productId: String!): Boolean!
   createProductCategory(name: String!): ProductCategory!
+  uploadFile(file: Upload!): String!
 }
 
 input CreateBoardInput {
@@ -103,3 +108,6 @@ input UpdateProductInput {
   productCategoryId: String
   url: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

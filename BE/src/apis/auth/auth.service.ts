@@ -41,6 +41,11 @@ export class AuthService {
     return this.getAccessToken({ user });
   }
 
+  async logOut({ context }): Promise<string> {
+    context.res.clearCookie('refreshToken');
+    return '로그아웃 완료';
+  }
+
   async loginOAuth({ req, res }: IAuthServiceLoginOAuth) {
     // 1. 회원조회
     let user = await this.usersService.findOneByEmailAndIsAuth({
@@ -58,12 +63,13 @@ export class AuthService {
   getAccessToken({ user }: IAuthServiceGetAccessToken): string {
     return this.jwtService.sign(
       {
+        id: user.id,
         email: user.email,
         nickname: user.nickname,
         isAuth: user.isAuth,
         isAdmin: user.isAdmin,
       },
-      { secret: process.env.JWT_ACCESS, expiresIn: '1h' },
+      { secret: process.env.JWT_ACCESS, expiresIn: '10m' },
     );
   }
 
@@ -74,6 +80,7 @@ export class AuthService {
   setRefreshToken({ user, res }: IAuthServiceSetRefreshToken): void {
     const refreshToken = this.jwtService.sign(
       {
+        id: user.id,
         email: user.email,
         nickname: user.nickname,
         isAuth: user.isAuth,
@@ -82,12 +89,10 @@ export class AuthService {
       { secret: process.env.JWT_REFRESH, expiresIn: '2w' },
     );
 
-    // 개발환경
-    // context.res.setHeader(
-    //   'set-Cookie',
-    //   `refreshToken=${refreshToken}; path=/;`,
-    // );
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    res.setHeader(
+      'Set-Cookie',
+      `refreshToken=${refreshToken}; path=/; Secure; httpOnly;`,
+    );
 
     // 배포환경
     // context.res.setHeader('set-Cookie',`refreshToken=${refreshToken}; path=/; domain=.mybakendsite.com; SameSite=None; Secure; httpOnly`,);

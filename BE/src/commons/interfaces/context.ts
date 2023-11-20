@@ -7,6 +7,7 @@ export interface IAuthUser {
     email?: string;
     isAuth?: number;
     isAdmin?: number;
+    point?: number;
   };
 }
 

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import styles from '../../styles/product.module.css';
@@ -32,14 +32,14 @@ export default function ProductPage ({products, isAdmin}) {
         axios.post("http://localhost:5656/graphql", {
             query: `
                 query {
-                    fetchFindProducts(word:"${word}") {
+                    fetchProducts(word:"${word}") {
                         id, name, description, price, isSoldout, url, productCategory{name}
                     }
                 }
             `,
         }, { withCredentials: true })
         .then(res => {
-            setFilteredProducts(res.data.data.fetchFindProducts)  
+            setFilteredProducts(res.data.data.fetchProducts)  
         })
         .catch(error =>  alert("상품을 불러오는데 실패했습니다."));
     }

@@ -40,7 +40,11 @@ export default function Product() {
             withCredentials: true
         })
         .then(res => {
-            setIsAdmin(res.data.data.fetchUser.isAdmin)
+            if(res.data.errors) {
+                console.log(res.data.errors[0].message)
+            } else {
+                setIsAdmin(res.data.data.fetchUser.isAdmin)
+            }         
         })
         .catch(error =>  alert("fetchUser Error"));
     }, [])
@@ -51,6 +55,7 @@ export default function Product() {
               <title>THE 캠핑</title>
               <meta name="description" content="캠핑 쇼핑몰" />
               <link rel="icon" href="/favicon.png" />
+              <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
           </Head>
           <section className="flex flex-col items-center justify-center text-gray-600 body-font">
               {products ? <ProductPage products={products} isAdmin={isAdmin}/> : <></>}

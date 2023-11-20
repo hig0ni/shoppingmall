@@ -22,6 +22,13 @@ export class UsersResolver {
     return { nickname, isAuth, isAdmin };
   }
 
+  @UseGuards(GqlAuthGuard('access'))
+  @Query(() => Number)
+  fetchPoint(@Context() context: IContext): Promise<number> {
+    const { email } = context.req.user;
+    return this.usersService.checkPoint({ email });
+  }
+
   @Mutation(() => User)
   createUser(
     @Args('email') email: string,

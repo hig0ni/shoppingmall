@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link';
-import { Cookies } from "react-cookie";
+import axios from "axios";
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router'
 import { tokenState } from '../recoil/recoilToken.js';
@@ -19,10 +19,18 @@ export default function Dropdown() {
   const router = useRouter();
   
   const logout = () => {
-    const cookies = new Cookies();
-    cookies.remove('refreshToken')
     setToken(null);
     setUser(null);
+    axios.post("http://localhost:5656/graphql", {
+            query: `
+                mutation {
+                    logOut
+                }
+            `,
+        },
+        { withCredentials: true }
+        )
+        .catch(error =>  alert("로그아웃에 실패했습니다."));
     router.push('/')
   }
 
@@ -47,6 +55,19 @@ export default function Dropdown() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <button className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )} >
+                    <Link href="/point">
+                        포인트충전
+                    </Link>
+                </button>
+
+              )}
+            </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <button className={classNames(

@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './apis/products/products.module';
 import { UsersModule } from './apis/users/users.module';
 import { AuthModule } from './apis/auth/auth.module';
+import { FilesModule } from './apis/files/files.module';
 import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransactions.module';
 import { ProductsCategoriesModule } from './apis/productsCategories/productsCategories.module';
 
@@ -18,6 +19,7 @@ import { ProductsCategoriesModule } from './apis/productsCategories/productsCate
     ProductsModule,
     ProductsCategoriesModule,
     UsersModule,
+    FilesModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
