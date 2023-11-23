@@ -31,7 +31,9 @@ export default function ProductDetailPage ({product}) {
                             </div>
                             <div className="p-4 flex flex-col">
                                 <span className="text-5xl font-bold text-black">{product.name}</span>
-                                <span className="mt-5 text-3xl text-black"> {product.price}원</span>
+                                <span className="mt-2 text-3xl text-black"> {product.price}원</span>
+                                <span className="mt-5 text-3xl text-black">{product.description}</span>
+                                
                             </div>
                         </div>
                     </section>

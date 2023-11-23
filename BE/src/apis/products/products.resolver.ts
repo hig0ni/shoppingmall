@@ -1,8 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { CreateProductInput } from './dto/create-product.input';
 import { Product } from './entities/product.entity';
 import { UpdateProductInput } from './dto/update-product.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { IContext } from 'src/commons/interfaces/context';
 
 @Resolver()
 export class ProductsResolver {
@@ -24,16 +27,17 @@ export class ProductsResolver {
     return this.productsService.findAll({ word });
   }
 
+  @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Product)
   createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,
+    @Context() context: IContext,
   ): Promise<Product> {
-    // << 브라우저에 결과 보내주는 2가지 방법>>
-    // 1. 등록된 내용이 담긴 객체를 그대로 브라우저에 돌려보내주기
-    return this.productsService.create({ createProductInput });
-
-    // 2. 결과메시지만 간단히 보내주기
-    // return '정상적으로 상품이 등록되었습니다.';
+    console.log('상품을 받아옵니다.');
+    console.log(createProductInput);
+    console.log('상품 받아오기를 끝냈습니다.');
+    const { id } = context.req.user;
+    return this.productsService.create({ createProductInput, id });
   }
 
   @Mutation(() => Product)

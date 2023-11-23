@@ -28,7 +28,7 @@ export class Product {
   @Field(() => Int)
   price: number;
 
-  @Column()
+  @Column({ default: false })
   @Field(() => Boolean)
   isSoldout: boolean;
 

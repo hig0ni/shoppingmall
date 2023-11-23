@@ -45,36 +45,19 @@ export class ProductsService {
 
   async create({
     createProductInput,
+    id: userId,
   }: IProductsServiceCreate): Promise<Product> {
-    //  // 1. 상품 하나만 등록할 때 사용하는 방법
-    // const result = this.productsRepository.save({
-    //   ...createProductInput,
-    //   하나 하나 직접 나열하는 방식
-    //   name: '마우스',
-    //   description: '좋은 마우스',
-    //   price: 3000,
-    // });
-
-    // 2. 상품과 상품거래위치를 같이 등록하는 방법
     const { productCategoryId, ...product } = createProductInput;
 
     const result = this.productsRepository.save({
       ...product,
       productCategory: {
         id: productCategoryId,
-        // 만약에, name 까지 받고 싶으면?
-        // => createProductInput에 name 까지 포함해서 받아오기
+      },
+      user: {
+        id: userId,
       },
     });
-
-    // // 하나 하나 직접 나열하는 방식
-    // name: product.name,
-    // description: product.description,
-    // price: product.price,
-    // productCategory: {
-    //   id: productCategoryId
-    // }
-
     return result;
   }
 

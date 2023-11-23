@@ -66,7 +66,7 @@ export default function ProductPage ({products, isAdmin}) {
                                     <button className={styles.slash} onClick={handleCategory} value="텐트">텐트</button>
                                     <button className={styles.slash} onClick={handleCategory} value="침낭">침낭</button>
                                     <button className={styles.slash} onClick={handleCategory} value="화로">화로</button>
-                                    <button className={styles.slash} onClick={handleCategory} value="키친">키친</button>
+                                    <button className={styles.slash} onClick={handleCategory} value="기타">기타</button>
                                 </div>
                                 
                                 <Link href="/product/create">

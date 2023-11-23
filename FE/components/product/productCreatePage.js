@@ -2,12 +2,17 @@ import { React, useState } from "react";
 import styles from '../../styles/productDetail.module.css';
 import Link from 'next/link';
 import axios from "axios";
+import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCamera, faCoins, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { useRecoilState } from 'recoil';
+import { tokenState } from '../../recoil/recoilToken.js';
 
 export default function ProductCreatePage () {
+    const router = useRouter()
+    const [token, setToken] = useRecoilState(tokenState);
+
     const [file, setFile] = useState("");
-    const [productImage, setProductImage] = useState("");
     const [productName, setProductName] = useState("");
     const [productCategoryId, setProductCategoryId] = useState("1");
     const [productDescription, setProductDescription] = useState("");
@@ -20,62 +25,81 @@ export default function ProductCreatePage () {
     const fileUpload = (e) => setFile(e.target.files[0]);
 
     const register = async() => {
-        // if (!file || file.length === 0) {
-        //     alert("이미지를 등록해주세요");
-        //     return;
-        // }
-        // if (!productCategoryId) {
-        //     alert("카테고리를 선택해주세요");
-        //     return;
-        // }
-        // if (!productName) {
-        //     alert("상품명을 작성해주세요");
-        //     return;
-        // }
-        // if (!productDescription) {
-        //     alert("상품 설명을 작성해주세요");
-        //     return;
-        // }
-        // if (!productPrice) {
-        //     alert("상품 가격을 작성해주세요");
-        //     return;
-        // }
-        console.log(file);
-        // 이미지 gcp에 등록
-        // await axios.post("http://localhost:5656/graphql", {
-        //     query: `
-        //         mutation uploadFile($file: Upload!) {
-        //             uploadFile(file: $file)   
-        //         },
-        //     `,
-        //     variables: {
-        //         file: file,
-        //     },
-        //     query: `
-        //         mutation {
-        //             uploadFile(file: ${file})
-        //         }
-        //     `,
-        //     variables: {
-        //         file: file,
-        //     },
-        // })
-        // .then(res => {
-        //     console.log(res)
-        // })
-        // .catch(error => {alert("이미지 등록 실패"); return;});
+        if (!file || file.length === 0) {
+            alert("이미지를 등록해주세요");
+            return;
+        }
+        if (!productCategoryId) {
+            alert("카테고리를 선택해주세요");
+            return;
+        }
+        if (!productName) {
+            alert("상품명을 작성해주세요");
+            return;
+        }
+        if (!productDescription) {
+            alert("상품 설명을 작성해주세요");
+            return;
+        }
+        if (!productPrice) {
+            alert("상품 가격을 작성해주세요");
+            return;
+        }
 
-        // await axios.post("http://localhost:5656/graphql", {
-        //     query: `
-        //         mutation {
-        //             createProduct(url: "${productImage}", name: "${productName}", productCategoryId: "${productCategoryId}", description: "${productDescription}", price: "${productPrice}")
-        //         }
-        //     `,
-        // })
-        // .then(res => {
-        //     console.log(res)
-        // })
-        // .catch(error =>  alert("상품 등록 실패"));
+        const formData = new FormData();
+        formData.append('operations', JSON.stringify({
+        query: 'mutation uploadFile($file: Upload!) { uploadFile(file: $file) }',
+        variables: {
+            file: null,
+        },
+        }));
+        formData.append('map', JSON.stringify({
+        '0': ['variables.file'],
+        }));
+        formData.append('0', file);
+
+        const headers = {
+            'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+            'x-apollo-operation-name': 'true',
+            'Authorization': `Bearer ${token}`,
+            'withCredentials': 'true',
+        }
+
+        const options = {
+        headers: headers,
+        };
+
+        await axios.post('http://localhost:5656/graphql', formData, options)
+        .then(response => {
+            axios.post("http://localhost:5656/graphql", {
+                query: `mutation {
+                    createProduct(createProductInput: {
+                        name: "${productName}",
+                        description: "${productDescription}",
+                        price: ${productPrice},
+                        productCategoryId: "${productCategoryId}", 
+                        url: "https://storage.googleapis.com/${response.data.data.uploadFile}",
+                        }
+                    ) {
+                        id
+                    }
+                }
+            `,
+            }, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }, 
+                withCredentials: true
+            })
+            .then(res => {
+                console.log(res)
+                router.push('/products')
+            })
+            .catch(error =>  alert("상품 등록 실패"));
+        })
+        .catch(error => {
+            alert('파일 업로드 실패')
+        });
     };
     
     return (
@@ -99,7 +123,7 @@ export default function ProductCreatePage () {
                                     <option value="1">텐트</option>
                                     <option value="2">침낭</option>
                                     <option value="3">화로</option>
-                                    <option value="4">키친</option>
+                                    <option value="4">기타</option>
                                 </select>
                                 <div className="text-3xl font-bold text-black mt-5">상품명</div>
                                 <input
