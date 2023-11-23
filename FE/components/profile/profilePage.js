@@ -9,12 +9,11 @@ import styles from '../../styles/profile.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 
-export default function ProfilePage() {
+export default function ProfilePage({isAuth}) {
     const router = useRouter()
     const cookies = new Cookies();
     const [token, setToken] = useRecoilState(tokenState);
     const [user, setUser] = useRecoilState(userState);
-    const [isAuth, setIsAuth] = useState(false); 
 
     const [inputPw, setInputPw] = useState(""); // 비밀번호 변경시 사용할 비밀번호
     const [inputPw1, setInputPw1] = useState(""); // 비밀번호 변경시 사용할 비밀번호
@@ -266,7 +265,7 @@ export default function ProfilePage() {
                 <FontAwesomeIcon icon={faAddressCard} size="10x" style={{color: "#000000"}} />
                 <div className={styles.Title}>프로필</div>
             </div>
-            {!isAuth && (
+            {!isAuth ? (
                 <div>
                     {passwordisEditing ? (
                     <div className={styles.profile_content}>
@@ -341,7 +340,7 @@ export default function ProfilePage() {
                     </div>
                 )}
             </div>
-            )}
+            ): <></> }
             {nicknameisEditing ? (
                 <div className={styles.profile_content}>
                     <div>

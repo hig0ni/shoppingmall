@@ -47,7 +47,7 @@ export default function Profile() {
               <link rel="icon" href="/favicon.png" />
           </Head>
           <section className="flex flex-col items-center justify-center text-gray-600 body-font">
-            {ssrCompleted ? <ProfilePage /> : <></>}
+            {ssrCompleted ? <ProfilePage isAuth={isAuth} /> : <></>}
           </section>
       </Layout>
     );

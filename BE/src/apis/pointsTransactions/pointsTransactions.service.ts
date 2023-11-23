@@ -50,7 +50,7 @@ export class PointsTransactionsService {
     );
 
     return this.pointsTransactionsRepository.find({
-      where: { impUid: Not(In(impuidsWithCancelStatus)) },
+      where: { user, impUid: Not(In(impuidsWithCancelStatus)) },
     });
   }
 
