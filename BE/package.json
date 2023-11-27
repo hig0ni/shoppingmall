@@ -45,6 +45,7 @@
     "passport-naver-v2": "^2.0.8",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "sharp": "^0.32.6",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
