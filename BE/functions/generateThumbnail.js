@@ -1,5 +1,7 @@
-import { Storage } from '@google-cloud/storage';
-import sharp from 'sharp';
+// 해당 코드는 GCP의 Cloud functions에 복붙용
+
+const { Storage } = require('@google-cloud/storage');
+const sharp = require('sharp');
 
 /**
  * Triggered from a change to a Cloud Storage bucket.
@@ -16,8 +18,8 @@ exports.generateThumbnail = (event, context) => {
   console.log('================');
 
   // 썸네일 생성 준비
-  const originStorage = new Storage().bucket(process.env.GCP_BUCKET);
-  const thumbStorage = new Storage().bucket(process.env.GCP_THUMBNAIL_BUCKET);
+  const originStorage = new Storage().bucket('codecamp-mystorage');
+  const thumbStorage = new Storage().bucket('codecamp-thumbnail-mystorage');
 
   // 파일 불러오기
   originStorage
